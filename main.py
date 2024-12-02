@@ -1,3 +1,5 @@
+from os import environ
+
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import os
@@ -36,7 +38,7 @@ def hello_world():
 @app.route('/process-pdf', methods=['POST'])
 def process_pdf():
     if 'file' not in request.files:
-        return NO_FILE_ERROR, 400
+        return jsonify({"message": NO_FILE_ERROR}), 400
 
     pdf = request.files['file']
 
@@ -48,12 +50,14 @@ def process_pdf():
     pdf.save(save_path)
 
     task_id = file_processor.process_file(save_path)
-    return jsonify({"task_id": task_id})
+    return jsonify({"task_id": task_id}), 200
 
 
 @app.route('/status/<task_id>', methods=['GET'])
 def get_status(task_id):
     status = file_processor.get_status(task_id)
+    if status is None:
+        return jsonify({"message": "Task not found"}), 404
     return jsonify({"task_id": task_id, "status": status})
 
 
@@ -63,4 +67,4 @@ def close():
     return jsonify({"message": "Processor closed"})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=environ.get("PORT", 5000))

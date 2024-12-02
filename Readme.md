@@ -50,3 +50,9 @@ Processor can process the files.
 ### main
 main section is a main module for the project.
 Main module is used to run the project.
+
+
+### To Test Submission
+```commandline
+curl --location 'http://127.0.0.1:5001/process-pdf' \
+--form 'file=@"<path>"'```

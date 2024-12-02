@@ -45,7 +45,7 @@ class FileProcessor:
 
     def get_status(self, task_id: str) -> Optional[str]:
         with self.lock:
-            return self.task_status.get(task_id, "Task ID not found")
+            return self.task_status.get(task_id, None)
 
     def close(self):
         self.executor.shutdown(wait=True)
