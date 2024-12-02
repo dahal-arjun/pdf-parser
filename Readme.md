@@ -54,5 +54,14 @@ Main module is used to run the project.
 
 ### To Test Submission
 ```commandline
-curl --location 'http://127.0.0.1:5001/process-pdf' \
---form 'file=@"<path>"'```
+curl --location 'http://127.0.0.1:5001/process-pdf --form 'file=@"<path>"'
+```
+### To Test Status
+```commandline
+curl --location 'http://127.0.0.1:5001/status/<task_id>'
+```
+### To kill the process
+```commandline
+curl --location 'http://127.0.0.1:5001/kill'
+```
+
